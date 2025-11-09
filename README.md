@@ -13,9 +13,8 @@
 ### 🎯 Main Objective  
 Set up the full Java development environment, generate a Spring Boot project, and successfully run the first endpoint locally and push it to GitHub via SSH.
 
----
 
-### ⚙️ Tasks Completed
+### ️ Tasks Completed
 ✅ Installed and configured **JDK 17** and verified environment variables  
 ✅ Installed **IntelliJ IDEA** and connected it with **Maven**  
 ✅ Generated a **Spring Boot 3 project** via [start.spring.io](https://start.spring.io) with dependencies:  
@@ -50,3 +49,19 @@ Set up the full Java development environment, generate a Spring Boot project, an
 ```bash
 $ curl http://localhost:8080/hello
 Hello from InsightHub 🚀
+
+---
+
+## 🚀 Week 2 — User API with H2 Database
+
+> “Every strong system starts with a clean architecture and solid foundation.”
+
+### 🎯 Goal
+Implement a simple **User API** with:
+- REST endpoints for user creation and retrieval  
+- Layered architecture (`controller`, `service`, `repository`, `model`)  
+- In-memory **H2 Database** integration  
+
+---
+
+### 🧱 Architecture Overview
