@@ -12,13 +12,16 @@
 	</parent>
 
 	<groupId>com.internship</groupId>
-	<artifactId>InsightHub</artifactId>
+	<!-- artifactId лучше делать строчными: -->
+	<artifactId>insighthub</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>InsightHub</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<java.version>17</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<lombok.version>1.18.34</lombok.version>
 	</properties>
 
@@ -48,18 +51,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Lombok (compile-time only) -->
+		<!-- Lombok (compile-time + annotation processor) -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
-			<scope>compileOnly</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
-			<scope>annotationProcessor</scope>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Tests -->
@@ -70,20 +67,22 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-</project>
-<plugin>
-<groupId>org.apache.maven.plugins</groupId>
-<artifactId>maven-compiler-plugin</artifactId>
-<version>3.11.0</version>
-<configuration>
-	<release>17</release>
-</configuration>
-</plugin>
+			<build>
+				<plugins>
+					<!-- Spring Boot plugin -->
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+					</plugin>
+
+					<!-- Компилятор Java 17 -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.11.0</version>
+						<configuration>
+							<release>17</release>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
