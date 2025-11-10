@@ -5,26 +5,19 @@ import com.internship.insighthub.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService service;
-
-    public UserController(UserService service) {
-        this.service = service;
+    private final UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity<User> create(@RequestParam String username,
-                                       @RequestParam String passwordHash) {
-        return ResponseEntity.ok(service.create(username, passwordHash));
-    }
-
-    @GetMapping
-    public List<User> all() {
-        return service.all();
+    // GET /api/users/aidana
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(userService.findByUsername(username));
     }
 }
+
