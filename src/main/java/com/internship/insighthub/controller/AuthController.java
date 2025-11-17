@@ -2,21 +2,19 @@ package com.internship.insighthub.controller;
 
 import com.internship.insighthub.dto.LoginRequestDto;
 import com.internship.insighthub.dto.UserRegistrationDto;
-import com.internship.insighthub.model.User;
+import com.internship.insighthub.entity.User;
 import com.internship.insighthub.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
-
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
 
     // ✅ Регистрация нового пользователя
     @PostMapping("/register")
@@ -31,11 +29,11 @@ public class AuthController {
         }
     }
 
-    // ✅ Логин
+    // ✅ Логин по email + пароль
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginData) {
         try {
-            User user = userService.findByUsername(loginData.username());
+            User user = userService.findByEmail(loginData.email());
             boolean isValid = userService.verifyPassword(loginData.password(), user.getPasswordHash());
 
             if (!isValid) {
