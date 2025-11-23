@@ -2,43 +2,45 @@ package com.internship.insighthub.service;
 
 import com.internship.insighthub.dto.UserDto;
 import com.internship.insighthub.dto.UserRegistrationDto;
-import com.internship.insighthub.entity.User;
+import com.internship.insighthub.entity.User;                // ⭐ ВАЖНО
 import com.internship.insighthub.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    // 🔹 Регистрация нового пользователя (используется в AuthController.register)
+    // 🔹 Регистрация нового пользователя
     @Override
     public User registerUser(UserRegistrationDto userData) {
 
-        // 1) Проверка: username уже занят?
-        userRepository.findByUsername(userData.username())
+        // 1) Проверка username
+        userRepository.findByUsername(userData.getUsername())
                 .ifPresent(u -> {
                     throw new IllegalArgumentException("Username already exists");
                 });
 
-        // 2) Проверка: email уже используется?
-        userRepository.findByEmail(userData.email())
+        // 2) Проверка email
+        userRepository.findByEmail(userData.getEmail())
                 .ifPresent(u -> {
                     throw new IllegalArgumentException("Email already exists");
                 });
 
         // 3) Создаём нового пользователя
         User user = new User();
-        user.setUsername(userData.username());
-        user.setEmail(userData.email());
-        // TODO: здесь позже добавим шифрование пароля через PasswordEncoder
-        user.setPasswordHash(userData.password());  // или passwordHash(), если поле так называется
+        user.setUsername(userData.getUsername());
+        user.setEmail(userData.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(userData.getPassword()));
 
-        // 4) Сохраняем в базе
         return userRepository.save(user);
     }
 
@@ -66,3 +68,4 @@ public class UserServiceImpl implements UserService {
         return dto;
     }
 }
+

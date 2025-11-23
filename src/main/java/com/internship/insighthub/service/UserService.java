@@ -6,18 +6,19 @@ import com.internship.insighthub.entity.User;
 
 public interface UserService {
 
-    // 🔹 Регистрация нового пользователя
+    // регистрация нового пользователя
     User registerUser(UserRegistrationDto userData);
 
-    // 🔹 Поиск пользователя по email (для логина)
+    // поиск пользователя по email
     User findByEmail(String email);
 
-    // 🔹 Проверка пароля (сырое значение + захешированное)
+    // проверка пароля
     boolean verifyPassword(String rawPassword, String passwordHash);
 
-    // 🔹 Новый метод для UserController — получить пользователя по username как DTO
+    // поиск пользователя по username и возврат DTO
     UserDto findByUsername(String username);
 }
+
 
 
 

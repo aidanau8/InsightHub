@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>InsightHub</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #f5f7fa, #c3cfe2);
-            text-align: center;
-            padding-top: 100px;
-        }
-        h1 {
-            color: #333;
-            font-size: 2em;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>InsightHub – Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>🚀 InsightHub is running!</h1>
-<p>Welcome to your Spring Boot project 🌱</p>
-<p><a href="/h2-console">Open H2 Console</a></p>
+<header>
+    <h1>InsightHub</h1>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/register}">Register</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <h2>Welcome to InsightHub 🚀</h2>
+        <p>Simple Spring Boot + Thymeleaf demo for user registration.</p>
+        <a class="btn" th:href="@{/register}">Go to registration</a>
+    </section>
+</main>
+
+<footer>
+    <p>© 2025 InsightHub Internship</p>
+</footer>
 </body>
 </html>
