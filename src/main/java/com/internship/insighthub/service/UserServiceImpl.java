@@ -52,8 +52,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean verifyPassword(String rawPassword, String passwordHash) {
-        return rawPassword.equals(passwordHash);
+        return passwordEncoder.matches(rawPassword, passwordHash);
     }
+
 
     @Override
     public UserDto findByUsername(String username) {

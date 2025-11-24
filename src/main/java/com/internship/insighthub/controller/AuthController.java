@@ -21,65 +21,31 @@ public class AuthController {
 
     private final UserService userService;
 
-    // ✅ Регистрация нового пользователя (REST API)
     @PostMapping("/register")
-    public ResponseEntity<?> register(
-            @Valid @RequestBody UserRegistrationDto userData,
-            BindingResult bindingResult
-    ) {
+    public ResponseEntity<?> register(@RequestBody UserRegistrationDto userData) {
 
-        // ❗ Если поля пустые / не проходят Bean Validation → 400 BAD_REQUEST
-        if (bindingResult.hasErrors()) {
-            Map<String, Object> body = new HashMap<>();
-            body.put("status", HttpStatus.BAD_REQUEST.value());
-            body.put("message", "Validation failed");
+        // 🔍 Валидация пустых полей
+        if (userData == null
+                || isBlank(userData.getEmail())
+                || isBlank(userData.getPassword())
+                || isBlank(userData.getUsername())) {
 
-            Map<String, String> errors = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(error ->
-                    errors.put(error.getField(), error.getDefaultMessage())
-            );
-            body.put("errors", errors);
-
-            return ResponseEntity.badRequest().body(body);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Validation failed: fields cannot be empty");
         }
 
         try {
             User user = userService.registerUser(userData);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("status", HttpStatus.CREATED.value());
-            response.put("message", "User registered successfully");
-            response.put("username", user.getUsername());
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("User registered successfully: " + user.getUsername());
         } catch (IllegalArgumentException e) {
-            // Например, пользователь с таким email/username уже есть
-            Map<String, Object> body = new HashMap<>();
-            body.put("status", HttpStatus.CONFLICT.value());
-            body.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
         }
     }
 
-    // ✅ Логин по email + пароль
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginData) {
-        try {
-            User user = userService.findByEmail(loginData.getEmail());
-            boolean isValid = userService.verifyPassword(
-                    loginData.getPassword(),
-                    user.getPasswordHash()
-            );
-
-            if (!isValid) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("Invalid credentials");
-            }
-
-            return ResponseEntity.ok("Login successful for user: " + user.getUsername());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-        }
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 }
