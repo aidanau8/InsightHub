@@ -1,6 +1,6 @@
 # InsightHub — Spring Boot Internship Project 
 
-InsightHub is a backend-focused Spring Boot application developed as part of the Across Hungry IT Academy Internship. The project follows a structured weekly progression to build clean architecture, authentication flow, database integration, and essential backend engineering practices.
+InsightHub is a backend-focused Spring Boot application developed as part of the Across GrowthHungry IT Academy Internship. The project follows a structured weekly progression to build clean architecture, authentication flow, database integration, and essential backend engineering practices.
 
 ---
 
@@ -111,6 +111,7 @@ Coverage:
 ```bash
 mvn clean install
 mvn spring-boot:run
+
 
 
 
