@@ -55,129 +55,104 @@ src/
         ├── static/css/style.css
         └── application.properties
 
+## 4. 📅 Weekly Progress
 
-## Weekly Progress
-## Week 1 — Project Setup
+### **Week 1 — Project Setup**
+- Installed & configured **JDK 17**
+- Created new **Spring Boot** project
+- Set up **Maven**
+- Added first **REST controller**
+- Initialized **Git + GitHub** repository
 
-Installed & configured JDK 17
-Created new Spring Boot project
-Set up Maven
-Added first REST controller
-Initialized Git + GitHub repository
+---
 
-## Week 2 — Database & Repository Layer
+### **Week 2 — Database & Repository Layer**
+- Added **H2 in-memory database**
+- Implemented **User** entity
+- Created **UserRepository**
+- Enabled **H2 Console**
+- Tested baseline DB operations
 
-## Added H2 in-memory database
+---
 
-Implemented User entity
-Created UserRepository
-Enabled H2 console
-Successfully tested baseline DB operations
+### **Week 3 — Authentication Backend**
+- Implemented full **registration flow**
+- Added duplicate email/username validation
+- Added **password hashing** (Spring Security Crypto)
+- Implemented **login logic**
+- Added custom exceptions + readable error messages
 
-Week 3 — Authentication Backend
+---
 
-Implemented full registration flow
-Checked duplicates (email, username)
-Added password hashing via Spring Security Crypto
-Implemented login logic
-Added custom exceptions & readable error responses
+### **Week 4 — Unit & API Tests**
+Configured testing environment:
+- **JUnit 5**
+- **MockMvc**
+- **ObjectMapper**
 
-Week 4 — Unit & API Tests
-
-Configured testing environment with:
-JUnit 5
-MockMvc
-ObjectMapper
 Validated status codes:
-✅ 201 Created
-❌ 400 Bad Request
-⚠️ 409 Conflict
-🔐 401 Unauthorized
+- ✅ 201 Created  
+- ❌ 400 Bad Request  
+- ⚠️ 409 Conflict  
+- 🔐 401 Unauthorized  
 
-## Week 5 — Thymeleaf Frontend Integration
+---
 
-##Goal: Add a minimalistic UI for registration.
+### **Week 5 — Thymeleaf Frontend Integration**
+🎯 *Goal: Add a minimalistic UI for registration.*
 
-**Completed:**
-Added Thymeleaf dependency
-Created index.html and register.html
+Completed:
+- Added **Thymeleaf dependency**
+- Created **index.html** and **register.html**
+- Implemented **MVC controller**
+- Added **server-side validation**
+- Added **client-side JS validation**
+- Displayed error messages via Thymeleaf
+- Added **FlashAttributes**
+- Applied **PRG pattern**
+- Added tests for empty request body
 
-Implemented MVC controller
+Result:  
+A functional registration form connected to backend logic.
 
-Added server-side validation
+---
 
-Added JavaScript validation
+### **Week 6–7 — Secure AI Chat Integration**
+#### 🔒 Backend
+- Added `/api/chat` endpoint (ChatController)
+- Implemented:
+  - `ChatRequestDto`
+  - `ChatResponseDto`
+  - `ChatService` (AI API call via RestTemplate)
+- Added global **CORS config**
+- Updated **SecurityConfig** to protect `/api/chat`
+- Implemented tests:
+  - Unauthorized → 401  
+  - Authorized → 200  
+  - Invalid input → 400  
 
-Displayed field errors via Thymeleaf
+#### 💬 Frontend (React draft)
+- Added **ProtectedRoute.js**
+- Added **Chat.js** (basic UI + send logic)
+- Updated routing: `/chat` is protected by token
 
-Added FlashAttributes
+---
 
-Applied PRG (Post-Redirect-Get) pattern
-
-Added empty-body validation tests
-
-Result:
-Functional registration form connected to backend business logic.
-
-Week 6–7 — Secure AI Chat Integration (Backend + Frontend Draft)
-Backend:
-
-Added /api/chat endpoint (ChatController)
-
-Implemented:
-
-ChatRequestDto
-
-ChatResponseDto
-
-ChatService with AI API call (RestTemplate)
-
-Added global CORS config
-
-Updated SecurityConfig to protect /api/chat
-
-Implemented unit & API tests:
-
-Unauthorized → 401
-
-Valid authorized → 200
-
-Invalid input → 400
-
-Frontend (React draft):
-
-Added ProtectedRoute.js
-
-Added Chat.js (basic UI + send message logic)
-
-Updated routing (/chat guarded by token)
-
-🧪 Testing Summary
+### 🧪 Testing Summary
 
 Tools:
-
-JUnit 5
-
-Spring Boot Test
-
-MockMvc
-
-Mockito
-
-Jackson ObjectMapper
+- JUnit 5  
+- Spring Boot Test  
+- MockMvc  
+- Mockito  
+- Jackson ObjectMapper  
 
 Coverage achieved:
+- Registration success → **201**
+- Empty/invalid fields → **400**
+- Duplicate user → **409**
+- Wrong login → **401**
+- Chat unauthorized → **401**
+- Chat authorized → **200**
 
-Registration success → 201
-
-Empty/invalid fields → 400
-
-Duplicate user → 409
-
-Wrong login → 401
-
-Chat unauthorized → 401
-
-Chat authorized → 200
-
-All critical flows include tests
+All critical flows include tests.
