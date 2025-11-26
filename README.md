@@ -40,7 +40,7 @@ The goal is to develop clean architecture and strong engineering fundamentals us
 
 ## 3. 📁 Project Structure
 
-```text
+
 src/
 └── main/
     ├── java/com/internship/insighthub/
@@ -54,6 +54,8 @@ src/
         ├── templates/ (index.html, register.html)
         ├── static/css/style.css
         └── application.properties
+
+
 
 ## 4. 📅 Weekly Progress
 
@@ -156,3 +158,5 @@ Coverage achieved:
 - Chat authorized → **200**
 
 All critical flows include tests.
+
+
