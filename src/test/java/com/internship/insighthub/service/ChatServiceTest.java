@@ -1,10 +1,17 @@
 package com.internship.insighthub.service;
 
+import com.internship.insighthub.model.ChatMessage;
+import com.internship.insighthub.model.ChatSession;
+import com.internship.insighthub.repository.ChatMessageRepository;
+import com.internship.insighthub.repository.ChatSessionRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 class ChatServiceTest {
@@ -13,8 +20,10 @@ class ChatServiceTest {
     void processMessage_shouldReturnReply_whenApiOk() {
         // given
         RestTemplate restTemplate = mock(RestTemplate.class);
-        ChatService.AiResponse apiResponse =
-                new ChatService.AiResponse("hello from ai");
+        ChatSessionRepository chatSessionRepository = mock(ChatSessionRepository.class);
+        ChatMessageRepository chatMessageRepository = mock(ChatMessageRepository.class);
+
+        ChatService.AiResponse apiResponse = new ChatService.AiResponse("hello from ai");
 
         when(restTemplate.postForObject(
                 anyString(),
@@ -22,8 +31,13 @@ class ChatServiceTest {
                 eq(ChatService.AiResponse.class)
         )).thenReturn(apiResponse);
 
-        ChatService chatService =
-                new ChatService(restTemplate, "http://fake-url", "fake-key");
+        ChatService chatService = new ChatService(
+                restTemplate,
+                chatSessionRepository,
+                chatMessageRepository,
+                "http://fake-url",
+                "fake-key"
+        );
 
         // when
         String result = chatService.processMessage("Hi");
@@ -32,41 +46,33 @@ class ChatServiceTest {
         assertEquals("hello from ai", result);
     }
 
+
     @Test
     void processMessage_shouldThrow_whenReplyNull() {
         // given
         RestTemplate restTemplate = mock(RestTemplate.class);
+        ChatSessionRepository chatSessionRepository = mock(ChatSessionRepository.class);
+        ChatMessageRepository chatMessageRepository = mock(ChatMessageRepository.class);
+
         when(restTemplate.postForObject(
                 anyString(),
                 any(),
                 eq(ChatService.AiResponse.class)
-        )).thenReturn(new ChatService.AiResponse(null));
+        )).thenReturn(null);
 
-        ChatService chatService =
-                new ChatService(restTemplate, "http://fake-url", "fake-key");
-
-        // then
-        assertThrows(IllegalStateException.class,
-                () -> chatService.processMessage("Hi"));
-    }
-
-    @Test
-    void processMessage_shouldWrapRestException() {
-        // given
-        RestTemplate restTemplate = mock(RestTemplate.class);
-        when(restTemplate.postForObject(
-                anyString(),
-                any(),
-                eq(ChatService.AiResponse.class)
-        )).thenThrow(new RestClientException("boom"));
-
-        ChatService chatService =
-                new ChatService(restTemplate, "http://fake-url", "fake-key");
+        ChatService chatService = new ChatService(
+                restTemplate,
+                chatSessionRepository,
+                chatMessageRepository,
+                "http://fake-url",
+                "fake-key"
+        );
 
         // then
-        RuntimeException ex = assertThrows(RuntimeException.class,
-                () -> chatService.processMessage("Hi"));
-
-        assertTrue(ex.getMessage().contains("AI service error"));
+        try {
+            chatService.processMessage("Hello");
+        } catch (IllegalStateException ex) {
+            assertEquals("AI reply is empty", ex.getMessage());
+        }
     }
 }

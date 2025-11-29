@@ -1,5 +1,5 @@
 package com.internship.insighthub.dto;
 
-public record ChatRequestDto(String message) {
+public record ChatRequestDto(Long chatSessionId, String message) {
 
 }
