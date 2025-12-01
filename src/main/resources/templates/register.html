@@ -24,34 +24,38 @@
             <p th:text="${successMessage}"></p>
         </div>
 
-        <!-- GLOBAL ERRORS -->
-        <div th:if="${#fields.hasErrors('*')}" class="alert error">
-            <ul>
-                <li th:each="err : ${#fields.errors('*')}"
-                    th:text="${err}"></li>
-            </ul>
-        </div>
-
+        <!-- ФОРМА РЕГИСТРАЦИИ -->
         <form th:action="@{/register}" th:object="${user}" method="post">
+
+            <!-- GLOBAL ERRORS (должны быть ВНУТРИ формы) -->
+            <div th:if="${#fields.hasErrors('*')}" class="alert error">
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}"
+                        th:text="${err}"></li>
+                </ul>
+            </div>
 
             <div class="form-group">
                 <label for="username">Username</label>
                 <input id="username" type="text" th:field="*{username}">
-                <div class="field-error" th:if="${#fields.hasErrors('username')}"
+                <div class="field-error"
+                     th:if="${#fields.hasErrors('username')}"
                      th:errors="*{username}"></div>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
                 <input id="email" type="email" th:field="*{email}">
-                <div class="field-error" th:if="${#fields.hasErrors('email')}"
+                <div class="field-error"
+                     th:if="${#fields.hasErrors('email')}"
                      th:errors="*{email}"></div>
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
                 <input id="password" type="password" th:field="*{password}">
-                <div class="field-error" th:if="${#fields.hasErrors('password')}"
+                <div class="field-error"
+                     th:if="${#fields.hasErrors('password')}"
                      th:errors="*{password}"></div>
             </div>
 

@@ -4,15 +4,10 @@ import com.internship.insighthub.dto.LoginRequestDto;
 import com.internship.insighthub.dto.UserRegistrationDto;
 import com.internship.insighthub.entity.User;
 import com.internship.insighthub.service.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,10 +16,11 @@ public class AuthController {
 
     private final UserService userService;
 
+    // ✅ Регистрация
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegistrationDto userData) {
 
-        // 🔍 Валидация пустых полей
+        // простая проверка на пустые поля
         if (userData == null
                 || isBlank(userData.getEmail())
                 || isBlank(userData.getPassword())
@@ -45,7 +41,30 @@ public class AuthController {
         }
     }
 
+    // ✅ Логин — ВОТ ЭТОГО НЕ ХВАТАЛО
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginData) {
+
+        if (loginData == null
+                || isBlank(loginData.getEmail())
+                || isBlank(loginData.getPassword())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Validation failed: email and password cannot be empty");
+        }
+
+        try {
+            // предполагаем, что userService.login возвращает JWT-строку
+            String token = userService.login(loginData);
+            return ResponseEntity.ok(token);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(e.getMessage());
+        }
+    }
+
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
     }
 }
+

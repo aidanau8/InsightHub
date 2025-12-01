@@ -3,59 +3,61 @@ package com.internship.insighthub.controller;
 import com.internship.insighthub.dto.UserRegistrationDto;
 import com.internship.insighthub.service.UserService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequiredArgsConstructor
 public class FrontendController {
 
     private final UserService userService;
 
-    // Главная страница – index.html
+    public FrontendController(UserService userService) {
+        this.userService = userService;
+    }
+
+    // 🔹 Главная страница
     @GetMapping("/")
     public String index() {
-        return "index"; // ищет templates/index.html
+        return "index";
     }
 
-    // Показать форму регистрации – register.html
+    // 🔹 Показать форму регистрации
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
-        // Если ещё не положили user в модель (после redirect)
-        if (!model.containsAttribute("user")) {
-            model.addAttribute("user", new UserRegistrationDto());
-        }
-        return "register"; // ищет templates/register.html
+        model.addAttribute("user", new UserRegistrationDto());
+        return "register";
     }
 
-    // Обработка формы регистрации
+    // 🔹 Обработать отправку формы
     @PostMapping("/register")
-    public String handleRegister(
+    public String processRegister(
             @Valid @ModelAttribute("user") UserRegistrationDto userDto,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes) {
-
-        // Если есть ошибки валидации – вернём форму с ошибками
+            Model model
+    ) {
+        // Если ошибки валидации — остаёмся на странице
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.user", bindingResult);
-            redirectAttributes.addFlashAttribute("user", userDto);
-            return "redirect:/register";
+            return "register";
         }
 
-        // Регистрация пользователя через сервис
-        userService.registerUser(userDto);
+        try {
+            userService.registerUser(userDto);
 
-        // Сообщение об успехе
-        redirectAttributes.addFlashAttribute(
-                "successMessage", "User registered successfully!");
-        return "redirect:/register";
+            // Сообщение об успехе
+            model.addAttribute("successMessage", "User registered successfully!");
+
+            // Очистить форму
+            model.addAttribute("user", new UserRegistrationDto());
+
+            return "register";
+        } catch (IllegalArgumentException ex) {
+            // Например, email уже занят
+            bindingResult.reject("registrationError", ex.getMessage());
+            return "register";
+        }
     }
 }
-

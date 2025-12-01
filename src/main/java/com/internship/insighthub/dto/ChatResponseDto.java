@@ -1,6 +1,10 @@
 package com.internship.insighthub.dto;
 
-public record ChatResponseDto(Long chatSessionId, String reply) {
+import java.util.List;
 
+public record ChatResponseDto(
+        Long sessionId,
+        String answer,
+        List<ChatMessageHistoryDto> messages
+) {
 }
-

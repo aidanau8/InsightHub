@@ -7,6 +7,5 @@ public record ChatMessageHistoryDto(
         String content,
         LocalDateTime createdAt
 ) {
-
 }
 
