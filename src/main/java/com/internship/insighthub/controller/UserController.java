@@ -15,7 +15,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // GET /api/users/{username}
+
     @GetMapping("/{username}")
     public ResponseEntity<UserDto> getByUsername(@PathVariable String username) {
         UserDto user = userService.findByUsername(username);

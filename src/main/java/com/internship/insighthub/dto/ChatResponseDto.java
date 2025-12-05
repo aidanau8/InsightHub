@@ -1,10 +1,18 @@
 package com.internship.insighthub.dto;
 
+import lombok.Data;
+
 import java.util.List;
 
-public record ChatResponseDto(
-        Long sessionId,
-        String answer,
-        List<ChatMessageHistoryDto> messages
-) {
+@Data
+public class ChatResponseDto {
+
+    private Long chatSessionId;
+    private String response;
+    private List<MessageDto> history;
+
+    private Long conversationId;
+    private boolean newConversation;
+    private String conversationTitle;
+    private String modelName;
 }

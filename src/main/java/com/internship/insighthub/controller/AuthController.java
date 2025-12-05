@@ -16,11 +16,11 @@ public class AuthController {
 
     private final UserService userService;
 
-    // ✅ Регистрация
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegistrationDto userData) {
 
-        // простая проверка на пустые поля
+
         if (userData == null
                 || isBlank(userData.getEmail())
                 || isBlank(userData.getPassword())
@@ -41,7 +41,7 @@ public class AuthController {
         }
     }
 
-    // ✅ Логин — ВОТ ЭТОГО НЕ ХВАТАЛО
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginData) {
 
@@ -54,7 +54,7 @@ public class AuthController {
         }
 
         try {
-            // предполагаем, что userService.login возвращает JWT-строку
+
             String token = userService.login(loginData);
             return ResponseEntity.ok(token);
         } catch (IllegalArgumentException e) {

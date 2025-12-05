@@ -14,22 +14,12 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    // POST /api/chat/ask
     @PostMapping("/ask")
-    public ResponseEntity<ChatResponseDto> askQuestion(
-            @RequestHeader("Authorization") String authorization,
-            @RequestBody ChatRequestDto request
-    ) {
-        // ожидаем: "Bearer dummy-token-for-aidana@example.com"
-        String token = authorization.replace("Bearer", "").trim();
+    public ResponseEntity<ChatResponseDto> ask(@RequestBody ChatRequestDto request) {
+        // 👇 Временная заглушка: работаем от имени одного пользователя
+        String email = "aidana20@example.com";
 
-        String email = token;
-        String prefix = "dummy-token-for-";
-        if (token.startsWith(prefix)) {
-            email = token.substring(prefix.length());
-        }
-
-        ChatResponseDto response = chatService.askQuestion(email, request);
+        ChatResponseDto response = chatService.chat(email, request);
         return ResponseEntity.ok(response);
     }
 }

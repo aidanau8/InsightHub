@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Invalid email or password");
         }
 
-        // временный фейковый токен
+
         return "dummy-token-for-" + user.getEmail();
     }
 

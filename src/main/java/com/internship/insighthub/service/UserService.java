@@ -15,6 +15,6 @@ public interface UserService {
 
     UserDto findByUsername(String username);
 
-    // 🔴 ОБЯЗАТЕЛЬНО: чтобы @Override не ругался
+
     String login(LoginRequestDto loginData);
 }

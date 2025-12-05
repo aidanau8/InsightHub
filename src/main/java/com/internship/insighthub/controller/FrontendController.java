@@ -19,27 +19,27 @@ public class FrontendController {
         this.userService = userService;
     }
 
-    // 🔹 Главная страница
+
     @GetMapping("/")
     public String index() {
         return "index";
     }
 
-    // 🔹 Показать форму регистрации
+
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new UserRegistrationDto());
         return "register";
     }
 
-    // 🔹 Обработать отправку формы
+
     @PostMapping("/register")
     public String processRegister(
             @Valid @ModelAttribute("user") UserRegistrationDto userDto,
             BindingResult bindingResult,
             Model model
     ) {
-        // Если ошибки валидации — остаёмся на странице
+
         if (bindingResult.hasErrors()) {
             return "register";
         }
@@ -47,15 +47,15 @@ public class FrontendController {
         try {
             userService.registerUser(userDto);
 
-            // Сообщение об успехе
+
             model.addAttribute("successMessage", "User registered successfully!");
 
-            // Очистить форму
+
             model.addAttribute("user", new UserRegistrationDto());
 
             return "register";
         } catch (IllegalArgumentException ex) {
-            // Например, email уже занят
+
             bindingResult.reject("registrationError", ex.getMessage());
             return "register";
         }

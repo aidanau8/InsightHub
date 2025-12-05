@@ -21,11 +21,11 @@ class ChatControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // просто мок, чтобы Spring смог заинжектить ChatService в контроллер
+
     @MockBean
     private ChatService chatService;
 
-    // ✅ 1. Простой чат (без истории)
+
     @Test
     void chatWithoutAuth_shouldReturnOk() throws Exception {
         String requestJson = """
@@ -41,7 +41,7 @@ class ChatControllerTest {
                 .andExpect(status().isOk());
     }
 
-    // ✅ 2. Чат с историей
+
     @Test
     void chatWithHistory_shouldReturnOk() throws Exception {
         String requestJson = """

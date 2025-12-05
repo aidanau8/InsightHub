@@ -1,0 +1,35 @@
+### 1. Зарегистрировать пользователя (один раз)
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "aidana",
+  "email": "aidana@example.com",
+  "password": "password123"
+}
+
+### 2. СОЗДАТЬ НОВЫЙ диалог (conversation)
+POST http://localhost:8080/api/chat/ask?email=aidana@example.com
+Content-Type: application/json
+
+{
+  "question": "Hi, can you help me with IELTS Speaking?",
+  "conversationId": null,
+  "modelName": "demo-model"
+}
+
+### 3. ПРОДОЛЖИТЬ тот же диалог (сюда потом руками подставим id)
+POST http://localhost:8080/api/chat/ask?email=aidana@example.com
+Content-Type: application/json
+
+{
+  "question": "What topics usually come in Part 2?",
+  "conversationId": 1,
+  "modelName": "demo-model"
+}
+
+### 4. Список всех диалогов пользователя
+GET http://localhost:8080/api/chat/conversations?email=aidana@example.com
+
+### 5. Детали одного диалога (сюда тоже подставим id)
+GET http://localhost:8080/api/chat/conversations/1?email=aidana@example.com

@@ -3,6 +3,9 @@ package com.internship.insighthub.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -23,6 +26,13 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private String password;  // <-- ВАЖНО: поле password
-}
+    private String password;
 
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Conversation> conversations = new ArrayList<>();
+}
