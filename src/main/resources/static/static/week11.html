@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InsightHub · Week 11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Библиотека для Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #020617;
+            color: #e5e7eb;
+        }
+        .app {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            padding: 10px 16px;
+            border-bottom: 1px solid #1f2937;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, rgba(56,189,248,0.15), rgba(129,140,248,0.15));
+        }
+        header .logo {
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 240px minmax(0, 2fr) 320px;
+            gap: 10px;
+            padding: 10px;
+        }
+        .panel {
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+            background-color: #020617;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        h2 {
+            font-size: 14px;
+            margin: 0 0 8px 0;
+        }
+        .courses-list, .sections-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+        }
+        .course-item, .section-item {
+            font-size: 13px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .course-item:hover, .section-item:hover {
+            background-color: #0f172a;
+        }
+        .course-item.active, .section-item.active {
+            border-color: #38bdf8;
+            background: linear-gradient(to right, rgba(56,189,248,0.25), rgba(129,140,248,0.25));
+        }
+        .course-desc {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+        .empty {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        .sections-top {
+            margin-bottom: 8px;
+        }
+        .section-content-box {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            border-radius: 10px;
+            border: 1px solid #1f2937;
+            padding: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            background-color: #020617;
+        }
+        .chat-messages {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid #1f2937;
+            padding: 8px;
+            margin-bottom: 8px;
+            background-color: #020617;
+            font-size: 13px;
+        }
+        .chat-message {
+            padding: 6px 8px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+        }
+        .chat-message.user {
+            background-color: #0f172a;
+        }
+        .chat-message.ai {
+            background-color: #020617;
+            border: 1px solid #1f2937;
+        }
+        .chat-message-role {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-bottom: 2px;
+        }
+        .chat-input {
+            resize: vertical;
+            border-radius: 8px;
+            border: 1px solid #1f2937;
+            padding: 6px;
+            background-color: #020617;
+            color: #e5e7eb;
+            font-size: 13px;
+            min-height: 60px;
+        }
+        .chat-send {
+            margin-top: 6px;
+            align-self: flex-end;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(to right, rgb(56,189,248), rgb(129,140,248));
+            color: #020617;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .hint {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        .error-banner {
+            position: fixed;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            padding: 8px;
+            border-radius: 8px;
+            background-color: #7f1d1d;
+            color: #fecaca;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <header>
+        <div class="logo">InsightHub · Tutor</div>
+        <div id="current-course" style="font-size: 13px; color:#d1d5db;"></div>
+    </header>
+
+    <main>
+        <!-- Слева: курсы -->
+        <aside class="panel">
+            <h2>Courses</h2>
+            <ul id="courses-list" class="courses-list"></ul>
+        </aside>
+
+        <!-- Центр: секции + контент -->
+        <section class="panel">
+            <div class="sections-top">
+                <h2>Sections</h2>
+            </div>
+            <ul id="sections-list" class="sections-list"></ul>
+
+            <div class="section-content-box" id="section-content">
+                <p class="hint">Choose a section to see its content.</p>
+            </div>
+        </section>
+
+        <!-- Справа: AI ассистент -->
+        <aside class="panel">
+            <h2>AI Assistant</h2>
+            <p class="hint">
+                Ask questions about the current section. Each section has its own chat.
+            </p>
+
+            <div id="chat-messages" class="chat-messages"></div>
+
+            <textarea id="chat-input"
+                      class="chat-input"
+                      placeholder="Type your question about this section..."></textarea>
+            <button id="chat-send" class="chat-send">Send</button>
+        </aside>
+    </main>
+
+    <div id="error-banner" class="error-banner" style="display:none;"></div>
+</div>
+
+<!-- Наш JS для Week 11 -->
+<script src="js/week11.js"></script>
+</body>
+</html>
