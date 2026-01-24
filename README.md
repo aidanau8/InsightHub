@@ -157,7 +157,7 @@ Coverage achieved:
 - Chat unauthorized → **401**
 - Chat authorized → **200**
 
-All critical flows include tests.
+All critical flows include tests..
 
 
 
