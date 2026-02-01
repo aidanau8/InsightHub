@@ -14,23 +14,26 @@ public class TutorChatController {
             @PathVariable Long sectionId,
             @RequestBody Map<String, String> body
     ) {
+        // Сообщение пользователя из тела запроса (week11.js отправляет { "message": "..." })
         String question = body.getOrDefault("message", "");
 
-        String reply = """
+        // Простейший "AI"-ответ (заглушка)
+        String answer = """
                 Thanks for your question about this section! 👩‍🏫
-
+                                
                 Section ID: %d
                 Your question: "%s"
-
+                                
                 In this section we talk about:
                 - primitive types (int, double, boolean, char)
                 - reference types (String, arrays, objects)
                 - type casting between different types.
-
-                Try to write a tiny Java example with a few primitive variables
+                                
+                Try to write a tiny Java example with 2–3 primitive variables
                 and print them in the console.
                 """.formatted(sectionId, question);
 
-        return ResponseEntity.ok(Map.of("reply", reply));
+        // JSON, который ждёт week11.js → { "reply": "..." }
+        return ResponseEntity.ok(Map.of("reply", answer));
     }
 }

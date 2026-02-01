@@ -15,9 +15,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // На время стажировки просто всё упрощаем:
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()   // 👈 всё разрешаем для Week 11
+                        // Разрешаем главную страницу и статику
+                        .requestMatchers(
+                                "/", "/index", "/register",
+                                "/css/**", "/js/**", "/images/**", "/webjars/**"
+                        ).permitAll()
+
+                        // Разрешаем весь наш API (для курсов, секций, чата)
+                        .requestMatchers("/api/**").permitAll()
+
+                        // Остальное тоже не блокируем (можно позже ужесточить)
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

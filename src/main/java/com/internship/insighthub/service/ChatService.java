@@ -5,6 +5,7 @@ import com.internship.insighthub.dto.ChatResponseDto;
 
 public interface ChatService {
 
+    ChatResponseDto chatWithoutHistory(ChatRequestDto request);
 
-    ChatResponseDto chat(String email, ChatRequestDto request);
+    ChatResponseDto chatWithHistory(ChatRequestDto request);
 }

@@ -1,16 +1,11 @@
 package com.internship.insighthub.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class ChatRequestDto {
 
-    @NotBlank
-    private String message;
-
-    private Long conversationId;
-
-    @NotBlank
-    private String modelName;
+    // тело запроса: { "question": "Hello", "sessionId": 1 }
+    private String question;
+    private Long sessionId;
 }

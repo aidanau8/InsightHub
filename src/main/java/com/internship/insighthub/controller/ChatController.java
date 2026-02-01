@@ -14,12 +14,15 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    @PostMapping("/ask")
-    public ResponseEntity<ChatResponseDto> ask(@RequestBody ChatRequestDto request) {
-        // 👇 Временная заглушка: работаем от имени одного пользователя
-        String email = "aidana20@example.com";
+    @PostMapping("/simple")
+    public ResponseEntity<ChatResponseDto> chatWithoutHistory(@RequestBody ChatRequestDto request) {
+        ChatResponseDto response = chatService.chatWithoutHistory(request);
+        return ResponseEntity.ok(response);
+    }
 
-        ChatResponseDto response = chatService.chat(email, request);
+    @PostMapping("/with-history")
+    public ResponseEntity<ChatResponseDto> chatWithHistory(@RequestBody ChatRequestDto request) {
+        ChatResponseDto response = chatService.chatWithHistory(request);
         return ResponseEntity.ok(response);
     }
 }

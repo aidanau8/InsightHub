@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>InsightHub Chat</title>
+</head>
+<body>
+<h2>AI Tutor Chat</h2>
+
+<label>Section ID:</label>
+<input id="sectionId" value="1"/>
+
+<br/><br/>
+
+<textarea id="msg" rows="4" cols="70" placeholder="Type your message..."></textarea>
+<br/>
+<button onclick="send()">Send</button>
+
+<pre id="out" style="white-space: pre-wrap;"></pre>
+
+<script>
+  async function send() {
+    const sectionId = document.getElementById("sectionId").value;
+    const message = document.getElementById("msg").value;
+
+    const res = await fetch(`/api/sections/${sectionId}/chat`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ message })
+    });
+
+    const data = await res.json();
+    document.getElementById("out").textContent = data.reply ?? JSON.stringify(data, null, 2);
+  }
+</script>
+</body>
+</html>
