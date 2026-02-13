@@ -1,35 +1,66 @@
--- Создаём пару курсов
-INSERT INTO courses (title, description) VALUES
-  ('Java Basics', 'Intro to Java syntax, variables, loops'),
-  ('Spring Boot Fundamentals', 'Building REST APIs with Spring Boot');
+-- -----------------------------
+-- COURSES
+-- -----------------------------
+INSERT INTO courses (title, description, created_at, updated_at, published) VALUES
+  ('Java Basics', 'Intro to Java syntax, variables, loops', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE),
+  ('Spring Boot Fundamentals', 'Building REST APIs with Spring Boot', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE);
 
--- Для этих курсов добавим секции.
--- Предполагаем, что ID у курсов стали 1 и 2 (пустая база → первые айди).
-INSERT INTO sections (content, course_id) VALUES
-('# Variables and Types
+-- -----------------------------
+-- SECTIONS
+-- -----------------------------
+INSERT INTO sections (title, content, course_id, order_index, created_at, updated_at) VALUES
+(
+  'Variables and Types',
+  '# Variables and Types
 
 In this section you learn about:
 - primitive types
 - reference types
 - type casting
-', 1),
-('# If / Else and Loops
+',
+  (SELECT id FROM courses WHERE title = 'Java Basics'),
+  1,
+  CURRENT_TIMESTAMP,
+  CURRENT_TIMESTAMP
+),
+(
+  'If / Else and Loops',
+  '# If / Else and Loops
 
 Topics:
 - if / else
 - for
 - while
 - do-while
-', 1),
-('# Controllers in Spring Boot
+',
+  (SELECT id FROM courses WHERE title = 'Java Basics'),
+  2,
+  CURRENT_TIMESTAMP,
+  CURRENT_TIMESTAMP
+),
+(
+  'Controllers in Spring Boot',
+  '# Controllers in Spring Boot
 
 - @RestController
 - @GetMapping
 - @PostMapping
-', 2),
-('# JPA & Spring Data
+',
+  (SELECT id FROM courses WHERE title = 'Spring Boot Fundamentals'),
+  1,
+  CURRENT_TIMESTAMP,
+  CURRENT_TIMESTAMP
+),
+(
+  'JPA & Spring Data',
+  '# JPA & Spring Data
 
 - @Entity
 - @ManyToOne / @OneToMany
 - JpaRepository
-', 2);
+',
+  (SELECT id FROM courses WHERE title = 'Spring Boot Fundamentals'),
+  2,
+  CURRENT_TIMESTAMP,
+  CURRENT_TIMESTAMP
+);
