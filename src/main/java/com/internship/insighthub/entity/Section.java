@@ -25,7 +25,7 @@ public class Section {
     @Column(nullable = false, length = 150)
     private String title;
 
-    // IMPORTANT for PostgreSQL:
+
 
     @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     @Column(nullable = false, columnDefinition = "text")

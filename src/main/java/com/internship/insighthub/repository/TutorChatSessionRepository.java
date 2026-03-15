@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface TutorChatSessionRepository extends JpaRepository<TutorChatSession, Long> {
 
-    // Находим последнюю (самую новую) сессию по секции
+
     Optional<TutorChatSession> findFirstBySectionOrderByCreatedAtDesc(Section section);
 
-    // Находим все сессии по секции (для reset)
+
     List<TutorChatSession> findAllBySection(Section section);
 }

@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor   // конструктор со всеми полями
-@NoArgsConstructor    // пустой конструктор
+@AllArgsConstructor
+@NoArgsConstructor
 public class MessageDto {
 
     private Long id;

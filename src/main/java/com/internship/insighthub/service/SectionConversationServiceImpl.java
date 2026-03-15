@@ -65,7 +65,7 @@ public class SectionConversationServiceImpl implements SectionConversationServic
 
     @Override
     public ConversationDto clearAndStartNew(Long sectionId, Long userId, String modelName) {
-        // Option 2: "tabs" — мы НЕ удаляем старые, просто деактивируем
+
         conversationRepository.deactivateBySectionIdAndUserId(sectionId, userId);
 
         return createNewConversation(sectionId, userId, modelName, "New conversation");

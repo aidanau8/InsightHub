@@ -17,13 +17,13 @@ public class ConversationController {
         this.conversationService = conversationService;
     }
 
-    // Получить список бесед пользователя (для "табов")
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ConversationDto>> getUserConversations(@PathVariable Long userId) {
         return ResponseEntity.ok(conversationService.getUserConversations(userId));
     }
 
-    // Получить конкретную беседу + историю
+
     @GetMapping("/{conversationId}")
     public ResponseEntity<ConversationDto> getConversation(@PathVariable Long conversationId) {
         return ResponseEntity.ok(conversationService.getConversation(conversationId));

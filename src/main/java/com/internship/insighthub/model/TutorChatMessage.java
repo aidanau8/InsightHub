@@ -2,7 +2,7 @@ package com.internship.insighthub.model;
 
 import com.internship.insighthub.entity.TutorChatSession;
 import jakarta.persistence.*;
-import lombok.Getter;
+        import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 

@@ -31,7 +31,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<SectionDto> getSectionsByCourseId(Long courseId) {
-        // Если курс не существует — 404
+
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Course with id " + courseId + " not found")

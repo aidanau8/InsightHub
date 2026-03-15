@@ -34,7 +34,7 @@ public class Conversation {
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
 
-    // ✅ ВОТ ЭТО НУЖНО, чтобы работало c.setUser(user)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

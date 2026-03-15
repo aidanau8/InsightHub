@@ -24,7 +24,7 @@ public class Message {
     @Column(nullable = false, length = 20)
     private MessageRole role;
 
-    // IMPORTANT for PostgreSQL:
+
 
     @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     @Column(nullable = false, columnDefinition = "text")

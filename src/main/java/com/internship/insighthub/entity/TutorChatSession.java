@@ -21,20 +21,20 @@ public class TutorChatSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // К какой секции относится этот чат
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
 
-    // Когда создана сессия
+
     @Column(nullable = false)
     private Instant createdAt = Instant.now();
 
-    // Флаг активности (на будущее)
+
     @Column(nullable = false)
     private boolean active = true;
 
-    // Сообщения внутри сессии
+
     @OneToMany(mappedBy = "session",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
